@@ -1,0 +1,5 @@
+At Epoch 10, loss=0.17913229211598178
+At Epoch 20, loss=nan
+At Epoch 10, loss=0.17913229211598178
+At Epoch 20, loss=nan
+At Epoch 30, loss=nan
