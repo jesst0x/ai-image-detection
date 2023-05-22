@@ -8,6 +8,7 @@ import json
 parser = argparse.ArgumentParser()
 parser.add_argument('--learning_rate', default='0.0001', help='Hyperparameter learning rate')
 parser.add_argument('--epoch', default ='10', help='Directory to save resize dataset')
+parser.add_argument('--logging_dir', default ='../experiment/', help='Directory to save experiment result')
 
 def model(train_x, train_y, dev_x, dev_y,learning_rate, num_epoch, logging_dir):
     
@@ -35,10 +36,11 @@ if __name__ == '__main__':
     #Hyperparameter
     learning_rate = float(args.learning_rate)
     num_epoch = int(args.epoch)
-    
+    logging_dir = args.logging_dir
+
     # Make directory to save our experimental parameters
     params_string = f'alpha_{learning_rate}_epoch_{num_epoch}'
-    logging_dir = '../experiment/' + params_string
+    logging_dir =  os.path.join(logging_dir, params_string)
     if not os.path.exists(logging_dir):   
         os.mkdir(logging_dir)
     else:

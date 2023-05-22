@@ -33,6 +33,13 @@ def shuffle(X, Y):
     
     return Z[:-1, :], Z[-1, :].reshape(1, Y.shape[1])
     
+def transform_images(data_dir, is_real=False):
+    X = load_data(data_dir)
+    Y = np.zeros((1, X.shape[0]))
+    if not is_real:
+        Y += 1
+    X_flatten = X.reshape((X.shape[0], -1)).T / 255
+    return X_flatten, Y
            
 # Load dataset and do necessary processing including unpacking images and shuffling of synthetic and real images
 def load_dataset():
@@ -45,7 +52,7 @@ def load_dataset():
     real_test_x = load_data('../../data/64x64/real/test')
     
     # real_train_x = load_data('../../data/64x64/real_kaggle/train')
-    # real_dev_x = load_data('../../data/64x64/real_kaggle/dev')
+    # real_dev_x = load_data('../../data/64x64/real_kaggle_dev/dev')
     # real_test_x = load_data('../../data/64x64/real_kaggle/test')
     
     synthetic_train_y = np.zeros((1, synthetic_train_x.shape[0])) + 1
