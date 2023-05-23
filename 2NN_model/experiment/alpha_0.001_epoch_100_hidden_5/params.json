@@ -1,0 +1,5 @@
+{
+    "learning_rate": 0.001,
+    "num_epoch": 100,
+    "hidden_units": 5
+}
