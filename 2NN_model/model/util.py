@@ -1,6 +1,7 @@
 import numpy as np
 from PIL import Image
 import os
+import shutil
         
 # Appending training log and evaluation result into txt file        
 def logging(dir, messages):
@@ -39,8 +40,32 @@ def unpack_image_pixel(filename):
     data = np.asarray(image)
     return data
 
+def convert_pixel_to_image(image_array, size=64):
+    image_array = np.uint8(image_array * 255)
+    reshaped_image = image_array.reshape((size, size, 3))
+    img = Image.fromarray(reshaped_image)
+    return img
+
+FILENAMES = [
+      os.path.join('../../data/64x64/real/test', f) for f in os.listdir('../../data/64x64/real/test')
+  ]
+
+def save_images(X, index, count, limit, is_saved=False, directory=''):
+    if not is_saved or limit < count:
+        return
+    image_array = X[:, index: index+1]
+    img = convert_pixel_to_image(image_array)
+    if not os.path.exists(directory):
+        print('Directory does not exist')
+        return 
+    img.save(os.path.join(directory, f'{index}.png'))
+    f = FILENAMES[index].split('/')[-1]
+    df = os.path.join(directory, f)
+    shutil.copy(os.path.join('../../data/raw/real', f),df)
+
 def load_data(dir):
     filenames = [os.path.join(dir, f) for f in os.listdir(dir)]
+    filenames.sort()
     array = np.array([unpack_image_pixel(f) for f in filenames])
     return array
 
@@ -52,10 +77,10 @@ def shuffle(X, Y):
     
     return Z[:-1, :], Z[-1, :].reshape(1, Y.shape[1])
     
-def transform_images(data_dir, is_real=False):
+def transform_images(data_dir, is_synthetic=True):
     X = load_data(data_dir)
     Y = np.zeros((1, X.shape[0]))
-    if not is_real:
+    if is_synthetic:
         Y += 1
     X_flatten = X.reshape((X.shape[0], -1)).T / 255
     return X_flatten, Y

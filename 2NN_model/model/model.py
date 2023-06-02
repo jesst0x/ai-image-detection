@@ -19,8 +19,8 @@ def model(train_x, train_y, dev_x, dev_y, hidden_layer, learning_rate, num_epoch
     Y_prediction_train = predict(train_x, parameters)
     Y_prediction_dev = predict(dev_x, parameters)
     
-    accuracy_train = evaluate(train_y, Y_prediction_train)
-    accuracy_test = evaluate(dev_y, Y_prediction_dev)
+    accuracy_train = evaluate(train_x, train_y, Y_prediction_train)
+    accuracy_test = evaluate(dev_x, dev_y, Y_prediction_dev)
     
     print(f'Training set accuracy: {accuracy_train}')
     print(f'Dev set accuracy: {accuracy_test}')
