@@ -57,7 +57,7 @@ if __name__ == '__main__':
         json.dump({'learning_rate': learning_rate, 'num_epoch': num_epoch, 'hidden_units': hidden_layer}, f, indent=4)
         
     #Load dataset with features extracted
-    train_x, train_y, dev_x, dev_y, test_x, test_y = util.load_dataset()
+    train_x, train_y, dev_x, dev_y = util.load_dataset()
     
     # Running model and evaluate
     model(train_x, train_y, dev_x, dev_y, hidden_layer, learning_rate, num_epoch, logging_dir)
