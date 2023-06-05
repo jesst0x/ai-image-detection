@@ -9,9 +9,10 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--learning_rate', default='0.0001', help='Hyperparameter learning rate')
 parser.add_argument('--epoch', default ='10', help='Directory to save resize dataset')
 parser.add_argument('--logging_dir', default ='../experiment/', help='Directory to save experiment result')
+parser.add_argument('--real_img_dir', default ='../../data/64x64/real', help='Directory to real image dataset')
+parser.add_argument('--synthetic_img_dir', default ='../../data/64x64/stylegan', help='Directory to synthetic image dataset')
 
 def model(train_x, train_y, dev_x, dev_y,learning_rate, num_epoch, logging_dir):
-    
     w, b = util.initialize_with_zeros(train_x.shape[0])
     w, b = train.optimize(train_x, train_y, w, b, learning_rate, num_epoch, logging_dir)
     
@@ -37,6 +38,8 @@ if __name__ == '__main__':
     learning_rate = float(args.learning_rate)
     num_epoch = int(args.epoch)
     logging_dir = args.logging_dir
+    real_img_dir = args.real_img_dir
+    synthetic_img_dir = args.synthetic_img_dir
 
     # Make directory to save our experimental parameters
     params_string = f'alpha_{learning_rate}_epoch_{num_epoch}'
@@ -51,7 +54,7 @@ if __name__ == '__main__':
         json.dump({'learning_rate': learning_rate, 'num_epoch': num_epoch}, f, indent=4)
         
     #Load dataset with features extracted
-    train_x, train_y, dev_x, dev_y = util.load_dataset()
+    train_x, train_y, dev_x, dev_y = util.load_dataset(synthetic_img_dir, real_img_dir)
     
     # Running model and evaluate
     model(train_x, train_y, dev_x, dev_y, learning_rate, num_epoch, logging_dir)

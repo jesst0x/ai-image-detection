@@ -46,10 +46,6 @@ def convert_pixel_to_image(image_array, size=64):
     img = Image.fromarray(reshaped_image)
     return img
 
-FILENAMES = [
-      os.path.join('../../data/64x64/real/test', f) for f in os.listdir('../../data/64x64/real/test')
-  ]
-
 def save_images(X, index, count, limit, is_saved=False, directory=''):
     if not is_saved or limit < count:
         return
@@ -59,9 +55,6 @@ def save_images(X, index, count, limit, is_saved=False, directory=''):
         print('Directory does not exist')
         return 
     img.save(os.path.join(directory, f'{index}.png'))
-    f = FILENAMES[index].split('/')[-1]
-    df = os.path.join(directory, f)
-    shutil.copy(os.path.join('../../data/raw/real', f),df)
 
 def load_data(dir):
     filenames = [os.path.join(dir, f) for f in os.listdir(dir)]
@@ -86,11 +79,11 @@ def transform_images(data_dir, is_synthetic=True):
     return X_flatten, Y
            
 # Load dataset and do necessary processing including unpacking images and shuffling of synthetic and real images
-def load_dataset():
-    synthetic_train_x = load_data('../../data/64x64/stylegan/train')
-    synthetic_dev_x = load_data('../../data/64x64/stylegan/dev')    
-    real_train_x = load_data('../../data/64x64/real/train')
-    real_dev_x = load_data('../../data/64x64/real/dev')
+def load_dataset(synthetic_img_dir, real_img_dir):
+    synthetic_train_x = load_data(os.path.join(synthetic_img_dir, 'train'))
+    synthetic_dev_x = load_data(os.path.join(synthetic_img_dir, 'dev'))    
+    real_train_x = load_data(os.path.join(real_img_dir, 'train'))
+    real_dev_x = load_data(os.path.join(real_img_dir, 'dev'))
      
     synthetic_train_y = np.zeros((1, synthetic_train_x.shape[0])) + 1
     synthetic_dev_y = np.zeros((1, synthetic_dev_x.shape[0])) + 1    

@@ -67,7 +67,7 @@ def evaluate(X, Y, Y_prediction, is_saved=False, logging_dir='', image_limit = 0
     
     
 parser = argparse.ArgumentParser()
-parser.add_argument('--params_file', default='../experiment/alpha_0.001_epoch_100_hidden_5/result.json', help='File consists of learned weight and bias')
+parser.add_argument('--model_file', default='../experiment/alpha_0.001_epoch_100_hidden_5/result.json', help='File consists of learned weight and bias')
 parser.add_argument('--dataset_dir', default ='../../data/64x64/stylegan3_test/test', help='Directory of images to predict and evaluate accuracy')
 parser.add_argument('--logging_dir', default='../result/test1', help='Directory to save evaluation result')
 parser.add_argument('--save_images', default='n', help='Save analyzed images folder - save if y')
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     data_dir = args.dataset_dir
     logging_dir = args.logging_dir
-    params_file = args.params_file
+    params_file = args.model_file
     is_saved = True if args.save_images == 'y' else False
     is_synthetic = True if args.is_synthetic == 'y' else False
     image_limit = int(args.saved_image_count)

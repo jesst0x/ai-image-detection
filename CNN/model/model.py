@@ -12,10 +12,10 @@ parser.add_argument('--epoch', default ='10', help='Directory to save resize dat
 parser.add_argument('--logging_dir', default ='../experiment/epoch_5_128x128', help='Directory to save experiment result')
 parser.add_argument('--real_img_dir', default ='../../data/128x128/real', help='Directory to real image dataset')
 parser.add_argument('--synthetic_img_dir', default ='../../data/128x128/stylegan', help='Directory to synthetic image dataset')
-parser.add_argument('--image_size', default ='128', help='Input image size')
 
 # Main training model
-def model(train_x, train_y, dev_x, dev_y, num_epoch, logging_dir, image_size):
+def model(train_x, train_y, dev_x, dev_y, num_epoch, logging_dir):
+    image_size = train_x.shape[1]
     
     model = models.Sequential()
     model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(image_size, image_size, 3)))
@@ -64,7 +64,6 @@ if __name__ == '__main__':
     logging_dir = args.logging_dir
     real_img_dir = args.real_img_dir
     synthetic_img_dir = args.synthetic_img_dir
-    image_size = int(args.image_size)
 
     # Make directory to save our experimental parameters
     logging_dir =  os.path.join('../experiment', logging_dir)
@@ -78,6 +77,6 @@ if __name__ == '__main__':
     train_x, train_y, dev_x, dev_y = util.load_training_dataset(synthetic_img_dir, real_img_dir)
     
     # Running model and evaluate
-    model(train_x, train_y, dev_x, dev_y, num_epoch, logging_dir, image_size)
+    model(train_x, train_y, dev_x, dev_y, num_epoch, logging_dir)
   
     

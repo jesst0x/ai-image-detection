@@ -61,18 +61,17 @@ def transform_images(data_dir, is_synthetic=True):
     return X_flatten, Y
            
 # Load dataset and do necessary processing including unpacking images and shuffling of synthetic and real images
-def load_dataset():
-    synthetic_train_x = load_data('../../data/64x64/stylegan/train')
-    synthetic_dev_x = load_data('../../data/64x64/stylegan/dev')
-    real_train_x = load_data('../../data/64x64/real/train')
-    real_dev_x = load_data('../../data/64x64/real/dev')
-    
+def load_dataset(synthetic_img_dir, real_img_dir):
+    synthetic_train_x = load_data(os.path.join(synthetic_img_dir, 'train'))
+    synthetic_dev_x = load_data(os.path.join(synthetic_img_dir, 'dev'))    
+    real_train_x = load_data(os.path.join(real_img_dir, 'train'))
+    real_dev_x = load_data(os.path.join(real_img_dir, 'dev'))
+     
     synthetic_train_y = np.zeros((1, synthetic_train_x.shape[0])) + 1
     synthetic_dev_y = np.zeros((1, synthetic_dev_x.shape[0])) + 1  
     real_train_y = np.zeros((1, real_train_x.shape[0]))
     real_dev_y = np.zeros((1, real_dev_x.shape[0]))
     
-    # Combine both labels
     train_y = np.concatenate((synthetic_train_y, real_train_y), axis=1)
     dev_y = np.concatenate((synthetic_dev_y, real_dev_y), axis=1)
     
@@ -83,7 +82,7 @@ def load_dataset():
     # Reshaping x from (m, width, height, channel) to (width x height x channel, m) and normalize the value
     train_x_flatten = train_x.reshape((train_x.shape[0], -1)).T / 255
     dev_x_flatten = dev_x.reshape((dev_x.shape[0], -1)).T / 255
-    
+
     # Shuffle training examples
     train_x_flatten, train_y = shuffle(train_x_flatten, train_y)
     
